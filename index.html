@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>fyne__tech Shop — Vifaa vya Simu, Bei Nzuri</title>
+<meta name="description" content="fyne__store — cover, charger, earphone, power bank na zaidi. Agiza kwa WhatsApp, lipa M-Pesa, delivery Dar es Salaam.">
+<style>
+  :root{
+    --bg:#000000;
+    --bg-elevated:#1C1C1E;
+    --bg-elevated-2:#26262A;
+    --text:#F5F5F7;
+    --text-secondary:#98989D;
+    --accent:#2DD4BF;
+    --accent-hover:#5EEAD4;
+    --accent-tint:rgba(45,212,191,0.14);
+    --border:rgba(255,255,255,0.12);
+    --radius-lg:20px;
+    --radius-full:999px;
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);color:var(--text);font-family:var(--font);
+    line-height:1.5;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  svg,img{display:block;}
+  button,.btn-order,.btn-primary,.header-cta{touch-action:manipulation;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 22px;}
+
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(0,0,0,0.72);backdrop-filter:saturate(180%) blur(20px);
+    -webkit-backdrop-filter:saturate(180%) blur(20px);
+    border-bottom:1px solid var(--border);
+  }
+  .header-inner{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 22px;max-width:1080px;margin:0 auto;
+  }
+  .brand-logo{height:26px;width:auto;}
+  .header-cta{
+    display:flex;align-items:center;gap:6px;
+    background:var(--bg-elevated);border:1px solid var(--border);color:var(--text);
+    padding:9px 16px;border-radius:var(--radius-full);font-size:0.82rem;font-weight:600;
+    transition:transform 0.15s,background 0.2s,color 0.2s;
+  }
+  .header-cta:hover{background:var(--accent);color:var(--bg);}
+  .header-cta:active{transform:scale(0.96);}
+  .header-cta svg{width:15px;height:15px;}
+
+  .hero{padding:88px 22px 64px;position:relative;overflow:hidden;text-align:center;}
+  .hero::before{
+    content:'';position:absolute;top:-160px;left:50%;transform:translateX(-50%);
+    width:560px;height:460px;border-radius:50%;
+    background:radial-gradient(circle, var(--accent-tint) 0%, transparent 70%);
+    z-index:0;pointer-events:none;
+  }
+  .hero-inner{max-width:640px;margin:0 auto;position:relative;z-index:1;}
+  .eyebrow{
+    font-size:0.8rem;font-weight:600;color:var(--accent);
+    letter-spacing:0.02em;margin-bottom:16px;display:inline-block;
+  }
+  .hero h1{
+    font-weight:700;font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.08;
+    letter-spacing:-0.03em;margin-bottom:18px;min-height:2.3em;
+  }
+  .hero h1 .cursor{
+    display:inline-block;width:3px;height:0.85em;margin-left:3px;
+    background:var(--accent);vertical-align:-0.1em;animation:blink 0.9s step-end infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .hero p{color:var(--text-secondary);font-size:1.05rem;max-width:440px;margin:0 auto 32px;}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent);color:var(--bg);font-weight:700;
+    padding:15px 28px;border-radius:var(--radius-full);font-size:0.98rem;
+    box-shadow:0 16px 36px rgba(45,212,191,0.22);
+    transition:transform 0.15s,box-shadow 0.2s,background 0.2s;border:none;cursor:pointer;
+  }
+  .btn-primary:hover{background:var(--accent-hover);box-shadow:0 20px 44px rgba(45,212,191,0.32);}
+  .btn-primary:active{transform:scale(0.97);}
+  .btn-primary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;}
+
+  .section-title{font-weight:700;font-size:1.6rem;letter-spacing:-0.02em;margin-bottom:6px;}
+  .section-sub{color:var(--text-secondary);font-size:0.92rem;margin-bottom:32px;}
+
+  .products{padding:56px 22px 64px;}
+  .product-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;max-width:1080px;margin:0 auto;}
+  @media(min-width:640px){.product-grid{grid-template-columns:repeat(3,1fr);gap:18px;}}
+  @media(min-width:960px){.product-grid{grid-template-columns:repeat(4,1fr);}}
+
+  .card{
+    background:var(--bg-elevated);border:1px solid var(--border);border-radius:var(--radius-lg);
+    padding:22px 16px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:11px;
+    transition:transform 0.25s ease,background 0.25s ease,border-color 0.25s ease,box-shadow 0.25s ease;
+  }
+  .card:hover{
+    transform:translateY(-6px);background:var(--bg-elevated-2);border-color:var(--accent);
+    box-shadow:0 20px 40px rgba(45,212,191,0.14);
+  }
+  .product-photo{
+    width:100%;aspect-ratio:1/1;border-radius:14px;overflow:hidden;
+    background:var(--bg-elevated-2);position:relative;border:1px solid var(--border);
+  }
+  .photo-placeholder{
+    position:absolute;inset:0;display:flex;
+    flex-direction:column;align-items:center;justify-content:center;gap:7px;
+    color:var(--text-secondary);z-index:0;
+  }
+  .photo-placeholder svg{width:26px;height:26px;opacity:0.55;}
+  .photo-placeholder span{font-size:0.66rem;font-weight:500;opacity:0.7;}
+  .photo-slider{
+    position:relative;z-index:1;display:flex;width:100%;height:100%;
+    overflow-x:auto;scroll-snap-type:x mandatory;
+    scrollbar-width:none;-ms-overflow-style:none;
+  }
+  .photo-slider::-webkit-scrollbar{display:none;}
+  .photo-slider img{
+    flex:0 0 100%;width:100%;height:100%;object-fit:cover;scroll-snap-align:center;
+  }
+  .photo-dots{
+    position:absolute;z-index:2;bottom:8px;left:0;right:0;
+    display:flex;justify-content:center;gap:5px;pointer-events:none;
+  }
+  .photo-dots .dot{
+    width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.45);
+    transition:background 0.2s,transform 0.2s;
+  }
+  .photo-dots .dot.active{background:#fff;transform:scale(1.35);}
+  .card h3{font-weight:600;font-size:0.96rem;letter-spacing:-0.01em;}
+  .card p{color:var(--text-secondary);font-size:0.8rem;line-height:1.4;min-height:2.2em;}
+  .price-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .price-tag{
+    font-weight:600;font-size:0.84rem;color:var(--accent);
+    background:var(--accent-tint);padding:6px 12px;border-radius:var(--radius-full);
+  }
+  .variant-label{
+    font-size:0.72rem;font-weight:500;color:var(--text-secondary);
+    background:var(--bg-elevated-2);padding:5px 10px;border-radius:var(--radius-full);
+  }
+  .btn-order{
+    width:100%;text-align:center;background:var(--accent);color:var(--bg);
+    font-weight:700;font-size:0.84rem;padding:11px;border-radius:var(--radius-full);
+    margin-top:6px;transition:background 0.2s,transform 0.15s;
+    display:flex;align-items:center;justify-content:center;gap:6px;border:none;cursor:pointer;
+  }
+  .btn-order:hover{background:var(--accent-hover);}
+  .btn-order:active{transform:scale(0.96);}
+  .btn-order:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
+
+  .how{padding:72px 22px;border-top:1px solid var(--border);}
+  .how-inner{max-width:1080px;margin:0 auto;}
+  .steps{display:grid;grid-template-columns:1fr;gap:32px;margin-top:36px;}
+  @media(min-width:760px){.steps{grid-template-columns:repeat(3,1fr);gap:28px;}}
+  .step-num{
+    font-weight:700;font-size:2.4rem;letter-spacing:-0.03em;color:var(--accent);
+    opacity:0.9;margin-bottom:12px;display:block;
+  }
+  .step h4{font-weight:600;font-size:1.05rem;margin-bottom:6px;letter-spacing:-0.01em;}
+  .step p{color:var(--text-secondary);font-size:0.88rem;}
+
+  /* Footer */
+  footer{background:var(--bg-elevated);border-top:1px solid var(--border);padding:48px 22px calc(110px + env(safe-area-inset-bottom));}
+  .footer-top{margin-bottom:32px;}
+  .footer-logo{height:22px;width:auto;}
+  .badge-new{
+    display:inline-block;font-size:0.7rem;font-weight:600;color:var(--accent);
+    background:var(--accent-tint);padding:4px 11px;border-radius:var(--radius-full);margin-bottom:14px;
+  }
+  .footer-grid{display:grid;grid-template-columns:1fr;gap:32px;}
+  @media(min-width:700px){.footer-grid{grid-template-columns:1.3fr 1fr 1fr;gap:40px;}}
+  .footer-col h4{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:14px;letter-spacing:0.01em;}
+  .footer-col p{color:var(--text-secondary);font-size:0.82rem;line-height:1.65;margin-bottom:10px;}
+  .footer-col .founder-line{font-size:0.78rem;opacity:0.85;}
+  .footer-col a{display:block;color:var(--text-secondary);font-size:0.82rem;line-height:2;transition:color 0.2s;}
+  .footer-col a:hover{color:var(--accent);}
+
+  .footer-legal{border-top:1px solid var(--border);margin-top:40px;padding-top:8px;}
+  details.policy{border-bottom:1px solid var(--border);}
+  details.policy summary{
+    list-style:none;cursor:pointer;padding:14px 2px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    font-size:0.85rem;font-weight:600;color:var(--text);
+  }
+  details.policy summary::-webkit-details-marker{display:none;}
+  details.policy .chevron{width:16px;height:16px;color:var(--text-secondary);transition:transform 0.25s;flex-shrink:0;}
+  details.policy[open] .chevron{transform:rotate(180deg);}
+  details.policy p{color:var(--text-secondary);font-size:0.8rem;line-height:1.7;padding:0 2px 18px;max-width:640px;}
+
+  .footer-bottom{margin-top:28px;padding-top:20px;border-top:1px solid var(--border);font-size:0.75rem;color:var(--text-secondary);}
+
+  /* Floating WhatsApp — squircle "message" icon */
+  .float-wa{
+    position:fixed;right:20px;z-index:60;
+    bottom:calc(20px + env(safe-area-inset-bottom));
+    width:58px;height:58px;border-radius:18px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-hover));
+    color:#fff;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 16px 36px rgba(45,212,191,0.4);transition:transform 0.2s,box-shadow 0.2s;
+  }
+  .float-wa:hover{transform:scale(1.06);box-shadow:0 20px 44px rgba(45,212,191,0.5);}
+  .float-wa:active{transform:scale(0.94);}
+  .float-wa svg{width:28px;height:28px;}
+  .float-wa:focus-visible{outline:2px solid var(--text);outline-offset:3px;}
+
+  @media(prefers-reduced-motion:reduce){
+    *{transition:none!important;animation:none!important;}
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <img class="brand-logo" src="logo.png" alt="fyne__tech">
+    <a class="header-cta" href="#" id="header-wa-link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M3 10.5C3 6.4 7 3 12 3s9 3.4 9 7.5-4 7.5-9 7.5c-.95 0-1.87-.12-2.7-.35L4 20l1.1-3.6C3.8 15 3 12.85 3 10.5z" fill="currentColor"/></svg>
+      WhatsApp
+    </a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-inner">
+    <span class="eyebrow">Duka la Vifaa vya Simu</span>
+    <h1><span id="typewriter"></span><span class="cursor"></span></h1>
+    <p>Chagua bidhaa, agiza kwa WhatsApp, lipa M-Pesa baada ya order kuthibitishwa. Delivery Dar es Salaam.</p>
+    <a href="#products" class="btn-primary">Ona Bidhaa Zote</a>
+  </div>
+</section>
+
+<section class="products" id="products">
+  <div class="wrap">
+    <h2 class="section-title">Bidhaa Zinazopatikana</h2>
+    <p class="section-sub">Bei zinaweza kubadilika kidogo kutegemea upatikanaji.</p>
+    <div class="product-grid" id="product-grid"></div>
+  </div>
+</section>
+
+<section class="how">
+  <div class="how-inner">
+    <h2 class="section-title">Jinsi ya Kuagiza</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <h4>Chagua Bidhaa</h4>
+        <p>Angalia bidhaa na bei hapo juu, chagua unayoihitaji.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <h4>Agiza WhatsApp</h4>
+        <p>Bofya "Agiza" kwenye bidhaa, utapelekwa moja kwa moja WhatsApp.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <h4>Lipa na Upokee</h4>
+        <p>Lipa M-Pesa baada ya order kuthibitishwa. Delivery Dar es Salaam siku 1-2.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <img class="footer-logo" src="logo.png" alt="fyne__Tech">
+    </div>
+
+    <div class="footer-grid">
+      <div class="footer-col">
+        <span class="badge-new">🚀 Tumeanza Hivi Karibuni</span>
+        <h4>Kuhusu fyne__Tech</h4>
+        <p>fyne__Tech ni chapa mpya inayofundisha AI na digital skills kwa Kiswahili, kwa vijana wa Tanzania na Afrika Mashariki. Bado tunaanza — duka hili ni sehemu ya safari hiyo. Kila oda inatusaidia kununua vifaa vya kutengeneza content bora zaidi (kamera, mic, taa) ili tuendelee kufundisha zaidi watu kuhusu AI. Ukinunua hapa, unatusaidia kukua.</p>
+        <p class="founder-line">Mwanzilishi: Imma Shirima — mwanafunzi wa Computer Science &amp; Information Systems Engineering, akijenga fyne__Tech akiwa bado chuo.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Wasiliana Nasi</h4>
+        <p>+255 623 175 171</p>
+        <a href="#" id="footer-wa-link" target="_blank" rel="noopener">Agiza kwa WhatsApp →</a>
+      </div>
+      <div class="footer-col">
+        <h4>Fuatilia</h4>
+        <a href="https://instagram.com/fyne__tech" target="_blank" rel="noopener">Instagram — @fyne__tech</a>
+        <a href="https://tiktok.com/@imma__shirima" target="_blank" rel="noopener">TikTok — @imma__shirima</a>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <details class="policy">
+        <summary>Sera ya Faragha
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p>Tovuti hii haihifadhi taarifa zako moja kwa moja. Unapobofya "Agiza," unapelekwa WhatsApp — taarifa unazotoa huko (jina, namba, anwani ya delivery) zinatumika tu kukamilisha oda yako, na haziuzwi wala kushirikishwa na mtu mwingine. Malipo yanafanyika kupitia M-Pesa moja kwa moja kati yako na fyne__tech. Kwa maswali kuhusu faragha yako, tuwasiliane WhatsApp.</p>
+      </details>
+      <details class="policy">
+        <summary>Vigezo vya Huduma
+          <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        </summary>
+        <p>Bei zilizoonyeshwa zinaweza kubadilika kidogo kutegemea upatikanaji wa bidhaa Kariakoo. Oda inathibitishwa baada ya malipo ya M-Pesa kupokelewa. Delivery inafanyika ndani ya Dar es Salaam pekee kwa sasa, ndani ya siku 1-2 za kazi. Hakikisha maelezo yako (jina, namba, anwani) ni sahihi wakati wa kuagiza ili kuepuka ucheleweshaji.</p>
+      </details>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 fyne__Tech. Haki zote zimehifadhiwa.</span>
+    </div>
+  </div>
+</footer>
+
+<a class="float-wa" id="float-wa-link" target="_blank" rel="noopener" aria-label="Order via WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M3 10.5C3 6.4 7 3 12 3s9 3.4 9 7.5-4 7.5-9 7.5c-.95 0-1.87-.12-2.7-.35L4 20l1.1-3.6C3.8 15 3 12.85 3 10.5z" fill="currentColor"/></svg>
+</a>
+
+<script>
+const WHATSAPP_NUMBER = "255623175171";
+
+// PRODUCTS — each item has "variants": one entry per photo. Swiping the photo
+// updates the price (and label, if set) to match that variant automatically.
+// To add a new item: copy one block below. To add another option/photo to an
+// existing item (e.g. a different brand or price), add another object to its
+// variants array. Photo missing? A "Picha Inakuja" placeholder shows instead
+// of breaking the layout.
+const PRODUCTS = [
+  {
+    name: "Cover ya Simu",
+    note: "Inakukinga na michubuko na anguko.",
+    variants: [
+      { image: "products/cover-1.jpg", price: 10000 }
+    ]
+  },
+  {
+    name: "Screen Protector",
+    note: "Kioo imara, kinga ya screen yako.",
+    variants: [
+      { image: "products/screen-protector-1.jpg", price: 6000 },
+      { image: "products/screen-protector-2.jpg", price: 6000 }
+    ]
+  },
+  {
+    name: "USB Cable",
+    note: "Chaji haraka, imara na inadumu.",
+    variants: [
+      { image: "products/usb-cable-4.jpg", price: 15000, label: "USB-C / Lightning" },
+      { image: "products/usb-cable-3.jpg", price: 10000, label: "Lightning" },
+      { image: "products/usb-cable-2.jpg", price: 10000, label: "Oraimo Micro-USB" },
+      { image: "products/usb-cable-1.jpg", price: 10000, label: "Thunderbolt" },
+      ]
+  },
+  {
+    name: "Fast Charger 20W",
+    note: "Chaji simu yako mara mbili haraka.",
+    variants: [
+      { image: "products/fast-charger-3.jpg", price: 22000 },
+      { image: "products/fast-charger-1.jpg", price: 25000 },
+      { image: "products/fast-charger-2.jpg", price: 65000, label: "Anker" },
+    ]
+  },
+  {
+    name: "Earphone Wireless",
+    note: "Sauti safi, bila waya, urahisi wa kubeba.",
+    variants: [
+      { image: "products/earphone-1.jpg", price: 50000, label: "Second Gen." },
+      { image: "products/earphone-2.jpg", price: 50000, label: "Second Gen." },
+      { image: "products/earphone-oraimo.jpg", price: 45000, label: "Oraimo" }
+    ]
+  },
+  {
+    name: "USB-C Hub",
+    note: "Unganisha HDMI, USB, SD Card na zaidi kwa wakati mmoja.",
+    variants: [
+      { image: "products/hub-2.jpg", price: 45000, label: "5-in One"  },
+      { image: "products/hub-1.jpg", price: 65000, label: "8-in One"  }
+    ]
+  },
+  {
+    name: "Kishikizo cha Simu",
+    note: "Weka simu wima wakati wa video au call.",
+    variants: [
+      { image: "products/holder-2.jpg", price: 10000, label: "CALUS" },
+      { image: "products/holder-1.jpg", price: 10000 },
+      { image: "products/holder-3.jpg", price: 10000, label: "CALUS" }
+    ]
+  }
+];
+
+function waLink(text) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
+function orderMessage(product, variant) {
+  const tag = variant.label ? ` (${variant.label})` : '';
+  return `Habari, nataka kuagiza: ${product.name}${tag} — TZS ${variant.price.toLocaleString()}`;
+}
+
+function renderProducts() {
+  const grid = document.getElementById('product-grid');
+  grid.innerHTML = PRODUCTS.map((p, pi) => {
+    const v0 = p.variants[0];
+    return `
+    <div class="card" data-index="${pi}">
+      <div class="product-photo">
+        <div class="photo-placeholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.3" cy="10.3" r="1.4"/><path d="M21 15.5l-5-5-10 8.5"/></svg>
+          <span>Picha Inakuja</span>
+        </div>
+        <div class="photo-slider">
+          ${p.variants.map(v => `<img src="${v.image}" alt="${p.name}" loading="lazy" onerror="this.remove()">`).join('')}
+        </div>
+        ${p.variants.length > 1 ? `<div class="photo-dots">${p.variants.map((_, i) => `<span class="dot${i === 0 ? ' active' : ''}"></span>`).join('')}</div>` : ''}
+      </div>
+      <h3>${p.name}</h3>
+      <p>${p.note}</p>
+      <div class="price-row">
+        <span class="price-tag" data-price>TZS ${v0.price.toLocaleString()}</span>
+        <span class="variant-label" data-label${v0.label ? '' : ' style="display:none"'}>${v0.label || ''}</span>
+      </div>
+      <a class="btn-order" data-order href="${waLink(orderMessage(p, v0))}" target="_blank" rel="noopener">Agiza →</a>
+    </div>`;
+  }).join('');
+
+  document.querySelectorAll('.card').forEach(card => {
+    const product = PRODUCTS[Number(card.dataset.index)];
+    if (product.variants.length <= 1) return;
+    const slider = card.querySelector('.photo-slider');
+    const dots = card.querySelectorAll('.photo-dots .dot');
+    const priceEl = card.querySelector('[data-price]');
+    const labelEl = card.querySelector('[data-label]');
+    const orderEl = card.querySelector('[data-order]');
+    slider.addEventListener('scroll', () => {
+      const index = Math.max(0, Math.min(product.variants.length - 1, Math.round(slider.scrollLeft / slider.clientWidth)));
+      const v = product.variants[index];
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+      priceEl.textContent = `TZS ${v.price.toLocaleString()}`;
+      if (v.label) { labelEl.textContent = v.label; labelEl.style.display = ''; }
+      else { labelEl.style.display = 'none'; }
+      orderEl.href = waLink(orderMessage(product, v));
+    }, { passive: true });
+  });
+}
+
+function setupScrollReveal() {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion) return;
+  const targets = document.querySelectorAll('.card, .step');
+  targets.forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(18px)';
+    el.style.transition = `opacity .6s ease ${Math.min(i * 0.05, 0.3)}s, transform .6s ease ${Math.min(i * 0.05, 0.3)}s`;
+  });
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'none';
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  targets.forEach(el => observer.observe(el));
+}
+
+function setupTypewriter() {
+  const el = document.getElementById('typewriter');
+  if (!el) return;
+  const phrases = ["Vifaa Halisi. Bei Nzuri.", "Tech Ngumu, Lugha Rahisi."];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    el.textContent = phrases[0];
+    return;
+  }
+  let pIndex = 0, cIndex = 0, deleting = false;
+  const TYPE = 110, DEL = 45, HOLD = 2200, GAP = 500;
+  function tick() {
+    const phrase = phrases[pIndex];
+    if (!deleting) {
+      cIndex++;
+      el.textContent = phrase.slice(0, cIndex);
+      if (cIndex === phrase.length) { deleting = true; setTimeout(tick, HOLD); return; }
+      setTimeout(tick, TYPE);
+    } else {
+      cIndex--;
+      el.textContent = phrase.slice(0, cIndex);
+      if (cIndex === 0) { deleting = false; pIndex = (pIndex + 1) % phrases.length; setTimeout(tick, GAP); return; }
+      setTimeout(tick, DEL);
+    }
+  }
+  tick();
+}
+
+document.getElementById('header-wa-link').href = waLink('Habari, nina swali kuhusu fyne__Tech Shop.');
+document.getElementById('float-wa-link').href = waLink('Habari, nina swali kuhusu fyne__Tech Shop.');
+document.getElementById('footer-wa-link').href = waLink('Habari, nina swali kuhusu fyne__Tech Shop.');
+
+renderProducts();
+setupScrollReveal();
+setupTypewriter();
+</script>
+
+</body>
+</html>
